@@ -1,28 +1,20 @@
 
-use sexpr::Sexpr;
-use std::vec;
+use ast::Sexpr;
 
 #[pub]
 start -> Sexpr
-        // XXX replace this with `list` once I get it working.
-        = atom
+        = list
 
 list -> Sexpr
-    = '(' body:element* ')'
-      { Sexpr::List(
-        // XXX for debugging only:
-        vec![]
-        // XXX what I'd really want, but I get a "not in scope" error
-        //body.map_in_place(|e| Box::new(e))
-        // XXX or something like the following, except I don't understand why
-        // XXX the result type is wrong:
-        //body.iter().map(|e| Box::new(e)).collect::<Vec<_>>()
-        ) }
+    = '(' space* body:element* ')'
+      { Sexpr::List(Box::new(body)) }
+
 element -> Sexpr
-   = a:atom space+ { a }
+   = a:(atom / list) space* { a }
 
 space = ' '
 
+#[pub]
 atom -> Sexpr
      = float
      / integer

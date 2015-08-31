@@ -5,3 +5,9 @@ authors = ["Pat Hickey <pat@galois.com>"]
 
 [dependencies]
 peg = "*"
+
+[lib]
+name = "sexpr"
+
+[[bin]]
+name = "test-sexpr"
